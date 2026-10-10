@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Errol Padilla Portfolio</title>
+<meta name="description" content="Errol Padilla: automation and reporting specialist. Excel VBA, Power BI, SQL, MS Access and AI workflow projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a spreadsheet-flavoured portfolio. A formula-bar hero, then one row per project (screenshot + Problem/Built/Result/Tools), then experience, skills and contact. */
+:root{
+  --bg:#F4F6FA; --surface:#FFFFFF; --ink:#0D1A33; --muted:#53617B; --line:#D8DFEB;
+  --accent:#107C41; --accent-soft:#E3F2E9; --accent-ink:#0B5E31; --grid:#E9EDF4;
+  --display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A1328; --surface:#101C38; --ink:#E7ECF6; --muted:#9BA9C5; --line:#24335A;
+  --accent:#3FBF7B; --accent-soft:#12342A; --accent-ink:#7EDDA8; --grid:#15223F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1328; --surface:#101C38; --ink:#E7ECF6; --muted:#9BA9C5; --line:#24335A;
+  --accent:#3FBF7B; --accent-soft:#12342A; --accent-ink:#7EDDA8; --grid:#15223F; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:20px}
+.wrap{max-width:1080px;margin-inline:auto}
+a{color:var(--accent-ink)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0}
+p{margin:0}
+
+/* Top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-20px;padding:12px 20px}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.nav{display:flex;gap:20px;flex-wrap:wrap}
+.nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.nav a:hover{color:var(--ink)}
+
+/* Hero */
+.hero{padding-block:64px 48px;display:grid;gap:28px}
+.fx{display:flex;align-items:stretch;border:1px solid var(--line);background:var(--surface);border-radius:6px;font-family:var(--mono);font-size:15px;max-width:620px;overflow:hidden}
+.fx .cell{padding:8px 14px;border-right:1px solid var(--line);color:var(--muted);min-width:56px;text-align:center}
+.fx .lbl{padding:8px 12px;border-right:1px solid var(--line);color:var(--accent);font-style:italic;font-weight:500}
+.fx .f{padding:8px 14px;white-space:nowrap;overflow-x:auto;min-width:0}
+.fx .f .s{color:var(--accent-ink)}
+.caret{display:inline-block;width:2px;height:1.05em;background:var(--ink);vertical-align:-2px;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero h1{font-size:clamp(56px,10vw,112px);font-weight:800;letter-spacing:-.01em;text-transform:uppercase}
+.hero .role{font-family:var(--display);font-size:clamp(22px,3vw,30px);font-weight:600;color:var(--accent-ink);margin-top:6px}
+.hero .lede{max-width:62ch;font-size:18px;color:var(--muted)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:6px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--accent);cursor:pointer;font-family:var(--body)}
+.btn.primary{background:var(--accent);color:var(--surface)}
+.btn.ghost{background:transparent;color:var(--accent-ink)}
+
+/* Numbers strip, laid out like a row of cells */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
+.nums div{padding:16px 18px;border-right:1px solid var(--line);min-width:0}
+.nums div:last-child{border-right:0}
+.nums b{display:block;font-family:var(--display);font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.nums span{font-size:13px;color:var(--muted)}
+
+/* Tool ticker: one long row of tool names that slides left forever */
+.ticker{border-block:1px solid var(--line);background:var(--surface);margin-inline:-20px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker-track{display:flex;width:max-content;animation:slide 40s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker ul{display:flex;list-style:none;margin:0;padding:14px 0}
+.ticker li{font-family:var(--mono);font-size:14px;color:var(--muted);white-space:nowrap;padding-inline:22px;border-right:1px solid var(--line)}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.ticker-track{width:auto}.ticker ul{flex-wrap:wrap;justify-content:center}.ticker ul[aria-hidden]{display:none}}
+
+/* Sections */
+section{padding-block:56px;border-top:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+section > .wrap > h2{font-size:clamp(34px,5vw,48px);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+.intro{color:var(--muted);max-width:62ch;margin-bottom:40px}
+
+/* Projects */
+.proj{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;align-items:start;padding-block:40px;border-bottom:1px dashed var(--line)}
+.proj:last-child{border-bottom:0}
+.proj:nth-of-type(even) .shots{order:2}
+.shots{display:grid;gap:12px;min-width:0}
+.shots.duo{grid-template-columns:1fr 1fr}
+.shot{display:block;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden;cursor:zoom-in;width:100%}
+.shot img{display:block;width:100%;height:auto}
+.shot:hover{border-color:var(--accent)}
+.shot.wide{grid-column:1/-1}
+.cap{font-size:13px;color:var(--muted)}
+.ptext{min-width:0;display:grid;gap:16px}
+.kind{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.proj h3{font-size:34px;font-weight:700}
+.summary{font-size:17px}
+dl{margin:0;display:grid;gap:12px}
+dl div{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px}
+dt{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);padding-top:3px}
+dd{margin:0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:12px;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent-ink)}
+
+/* Experience */
+.jobs{display:grid;gap:0;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
+.job{display:grid;grid-template-columns:170px minmax(0,1fr);gap:20px;padding:20px 22px;border-bottom:1px solid var(--line)}
+.job:last-child{border-bottom:0}
+.when{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.job h3{font-family:var(--body);font-size:17px;font-weight:600;line-height:1.35}
+.job h3 span{color:var(--muted);font-weight:400}
+.job p{color:var(--muted);margin-top:4px;font-size:15px}
+
+/* Skills */
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.skills h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+.skills ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.creds{margin-top:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.creds p{color:var(--muted)}
+
+/* Contact */
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:start}
+.contact .big{font-family:var(--display);font-size:clamp(34px,5vw,52px);font-weight:700;text-transform:uppercase;line-height:1.02}
+.card{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:22px;display:grid;gap:16px}
+.row{display:grid;gap:4px}
+.row .k{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.row .v{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:500;word-break:break-all}
+.copy{font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:4px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+
+/* Image viewer */
+dialog{border:0;padding:0;background:transparent;max-width:min(1200px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(5,10,25,.82)}
+dialog img{display:block;max-width:100%;max-height:86vh;border-radius:6px;background:#fff}
+dialog button{position:absolute;top:8px;right:8px}
+
+@media (max-width:820px){
+  .proj{grid-template-columns:1fr;gap:24px}
+  .proj:nth-of-type(even) .shots{order:0}
+  .skills{grid-template-columns:1fr 1fr}
+  .contact{grid-template-columns:1fr}
+  .nums{grid-template-columns:1fr 1fr}
+  .nums div:nth-child(2){border-right:0}
+  .nums div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:560px){
+  .nav{display:none}
+  .job{grid-template-columns:1fr;gap:4px}
+  .skills,.creds{grid-template-columns:1fr}
+  dl div{grid-template-columns:1fr;gap:2px}
+  .hero{padding-block:40px 32px}
+}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Errol Padilla</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="fx" aria-hidden="true">
+      <span class="cell">B2</span><span class="lbl">fx</span>
+      <span class="f">=AUTOMATE(<span class="s">"manual work"</span>)<span class="caret"></span></span>
+    </div>
+    <div>
+      <h1>Errol Padilla</h1>
+      <p class="role">Automation &amp; Reporting Specialist</p>
+    </div>
+    <p class="lede">I spent 12 years building reports for BPO operations teams. I turn repetitive Excel work into one-click tools, messy data into Power BI dashboards, and multi-step routines into automated workflows.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#work">See my projects</a>
+      <a class="btn ghost" href="#contact">Get in touch</a>
+    </div>
+    <div class="nums">
+      <div><b>12 yrs</b><span>BPO reporting &amp; workforce analytics</span></div>
+      <div><b>10% → 2%</b><span>Process defects cut through automation (Lean Six Sigma)</span></div>
+      <div><b>~2,200</b><span>Job postings in my Python → SQL → Power BI pipeline</span></div>
+      <div><b>~90</b><span>Videos produced by my n8n + OpenAI workflow</span></div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-label="Tools I use">
+    <div class="ticker-track">
+      <ul><li>Excel</li><li>VBA</li><li>Power Query</li><li>Power BI</li><li>SQL</li><li>MS Access</li><li>Python</li><li>PostgreSQL</li><li>n8n</li><li>OpenAI</li><li>FlutterFlow</li><li>Firebase</li><li>Google Maps</li><li>Claude Code</li><li>Canva</li><li>SharePoint</li><li>Salesforce</li><li>Tableau</li></ul>
+      <ul aria-hidden="true"><li>Excel</li><li>VBA</li><li>Power Query</li><li>Power BI</li><li>SQL</li><li>MS Access</li><li>Python</li><li>PostgreSQL</li><li>n8n</li><li>OpenAI</li><li>FlutterFlow</li><li>Firebase</li><li>Google Maps</li><li>Claude Code</li><li>Canva</li><li>SharePoint</li><li>Salesforce</li><li>Tableau</li></ul>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <h2>Projects</h2>
+      <p class="intro">Each project shows the problem, what I built and the result. Click a screenshot to enlarge it. Client details are anonymized and the figures are sample data.</p>
+
+      <article class="proj">
+        <div class="shots">
+          <button class="shot" type="button"><img src="images/scorecard.png" alt="Excel scorecard with slicers, completion points, logged cases and minutes worked charts, and an agent ranking table" loading="lazy"></button>
+          <button class="shot" type="button"><img src="images/scorecard-lead.png" alt="Team lead scorecard row with overall score, error rating and team error totals" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">Excel · Workforce reporting</p>
+          <h3>Monthly Team Scorecard</h3>
+          <p class="summary">Tracks the team's monthly logged-case work and ranks each agent automatically, with a separate scorecard for the team lead.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>Monthly stats had to be pulled together and ranked by hand, with no single view of how each person and the team lead were performing.</dd></div>
+            <div><dt>Built</dt><dd>A scorecard that combines logged cases, minutes worked, completion points, errors and attendance into a weighted overall score and ranks agents by role. The team lead is scored on team-level metrics like total errors and audit counts.</dd></div>
+            <div><dt>Result</dt><dd>Rankings update as monthly data comes in, with no manual sorting or scoring.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Excel</span><span class="chip">Pivot Charts</span><span class="chip">Slicers</span><span class="chip">Advanced formulas</span></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="shots">
+          <button class="shot" type="button"><img src="images/budget-tool.png" alt="Farm budget workbook with Print Summary, Print Budget, Save File, Upload File and Send Email buttons" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">Excel VBA · Automation</p>
+          <h3>One-Click Budget Tool</h3>
+          <p class="summary">A farm budget workbook with buttons for every repetitive step.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>Printing, saving, uploading and emailing each budget was a manual, multi-step routine.</dd></div>
+            <div><dt>Built</dt><dd>VBA macros behind buttons that print the summary or full budget, save a copy, upload it to SharePoint and send it by Outlook email.</dd></div>
+            <div><dt>Result</dt><dd>Each task became a single click.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Excel</span><span class="chip">VBA</span><span class="chip">SharePoint</span><span class="chip">Outlook</span></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="shots">
+          <button class="shot" type="button"><img src="images/balance-sheet.png" alt="MS Access balance sheet form with client and entity selectors, view options and current assets" loading="lazy"></button>
+          <button class="shot" type="button"><img src="images/access-schedules.png" alt="MS Access schedules form listing dated asset entries by schedule, entity, account, units and value per unit" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">MS Access · Database design</p>
+          <h3>Balance Sheet Database</h3>
+          <p class="summary">Builds farm balance sheets for many clients and their entities, from data entry to a printed, consolidated report. Designed and built from scratch.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>Each client farm's assets and liabilities were tracked separately, and building a consolidated balance sheet by hand was slow and error-prone.</dd></div>
+            <div><dt>Built</dt><dd>A relational Access database with 19 tables, about 100 queries, 20 forms and 30 reports. Forms update each farm's assets, liabilities and loans; queries group them into current and non-current categories and consolidate all of a client's entities.</dd></div>
+            <div><dt>Result</dt><dd>Any client's up-to-date consolidated balance sheet prints in a few clicks.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">MS Access</span><span class="chip">SQL</span><span class="chip">VBA</span><span class="chip">Access Reports</span></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="shots">
+          <button class="shot" type="button"><img src="images/job-dashboard.png" alt="Power BI dashboard comparing Business Analyst and Data Analyst job postings by company, day and applicant type" loading="lazy"></button>
+          <button class="shot" type="button"><img src="images/job-sql.png" alt="SQL query using ROW_NUMBER to remove duplicate job postings" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">Python · SQL · Power BI</p>
+          <h3>Job Market Dashboard</h3>
+          <p class="summary">A data pipeline that collects job postings and turns them into a job-search dashboard.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>Comparing Business Analyst and Data Analyst demand meant scrolling through job listings by hand.</dd></div>
+            <div><dt>Built</dt><dd>Python (Selenium and pandas) loads postings into PostgreSQL, SQL removes duplicates, and Power BI shows top hiring companies, locations and the best days to apply, with slicers, KPI cards and drill-down.</dd></div>
+            <div><dt>Result</dt><dd>About 2,200 postings in one dashboard instead of manual browsing.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Python</span><span class="chip">Selenium</span><span class="chip">PostgreSQL</span><span class="chip">SQL</span><span class="chip">Power BI</span></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="shots">
+          <button class="shot" type="button"><img src="images/n8n-workflow.png" alt="n8n workflow with OpenAI script nodes, JavaScript parsing, Python subtitle steps and a video service call" loading="lazy"></button>
+          <button class="shot" type="button"><img src="images/n8n-prompt.png" alt="n8n OpenAI node set to GPT-4.1 mini with a prompt that fixes the target length and forbids emojis and hashtags" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">n8n · OpenAI · Python</p>
+          <h3>AI Video Automation</h3>
+          <p class="summary">A workflow that turns a library of workforce-management tips into finished YouTube Shorts.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>Making one or two short videos a day by hand (script, voice-over, subtitles, editing) took too long to keep up.</dd></div>
+            <div><dt>Built</dt><dd>n8n picks a hook, tip and call to action from a content library I wrote. OpenAI (GPT-4.1 mini) writes the script body under strict rules and returns clean JSON. Python generates the AI voice-over and subtitles, and background clips rotate by date. I review every video before upload.</dd></div>
+            <div><dt>Result</dt><dd>About 90 Shorts produced from February to April 2026, at one or two a day.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">n8n</span><span class="chip">OpenAI API</span><span class="chip">JavaScript</span><span class="chip">Python</span></div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="shots duo">
+          <button class="shot" type="button"><img src="images/ridesync-booking.png" alt="RideSync booking screen with route on the map, fare and payment options" loading="lazy"></button>
+          <button class="shot" type="button"><img src="images/ridesync-finding.png" alt="RideSync finding-your-ride screen searching for nearby drivers" loading="lazy"></button>
+          <button class="shot wide" type="button"><img src="images/ridesync-login.png" alt="RideSync sign-in screen with feature highlights and a phone number field for a verification code" loading="lazy"></button>
+        </div>
+        <div class="ptext">
+          <p class="kind">FlutterFlow · Firebase · Mobile</p>
+          <h3>RideSync Ride-Hailing App</h3>
+          <p class="summary">Separate passenger and driver Android apps plus a web version, built solo with AI coding tools.</p>
+          <dl>
+            <div><dt>Problem</dt><dd>I wanted to prove I could build and ship a complete product end to end, beyond reports and automations.</dd></div>
+            <div><dt>Built</dt><dd>Phone OTP login, live trip tracking on Google Maps, upfront fares by distance and vehicle type, a driver request-and-accept flow, cash, GCash and Maya payment options, ratings and trip history. One project produces both apps.</dd></div>
+            <div><dt>Result</dt><dd>Two working Android apps and a web version, built since July 2026.</dd></div>
+          </dl>
+          <div class="chips"><span class="chip">FlutterFlow</span><span class="chip">Firebase</span><span class="chip">Google Maps API</span><span class="chip">Claude Code</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <p class="eyebrow">Career</p>
+      <h2>Experience</h2>
+      <p class="intro">Twelve years in workforce reporting and automation across BPO and finance teams.</p>
+      <div class="jobs">
+        <div class="job"><p class="when">Jun 2026 – now</p><div><h3>Expense Reporting Specialist <span>· ADEC Solutions</span></h3><p>Builds multi-period comparison dashboards, automates expense reporting workflows with Navan, VBA and Power Query, and moves legacy Excel dashboards to Power BI.</p></div></div>
+        <div class="job"><p class="when">May 2024 – Feb 2026</p><div><h3>MS Excel Coder, part-time <span>· DairyDashboard</span></h3><p>Debugged and optimized financial workbooks, built VBA and UserForm tools for data entry, and designed the balance sheet database shown above.</p></div></div>
+        <div class="job"><p class="when">Aug 2024 – Sep 2025</p><div><h3>Assistant Manager <span>· WNS</span></h3><p>Designed automated service-level and performance reports across business lines, and built MS Access databases with SQL and VBA to standardize data collection.</p></div></div>
+        <div class="job"><p class="when">Mar 2019 – Apr 2024</p><div><h3>Workforce Reports Analyst <span>· Optum</span></h3><p>Ran reporting pipelines on Salesforce and Power BI, automated daily data extraction, built scorecard and incentive reports, and led a Lean Six Sigma project that cut defects from 10% to 2%.</p></div></div>
+        <div class="job"><p class="when">Jan 2014 – Feb 2019</p><div><h3>Real-Time &amp; Reports Analyst <span>· Hinduja Global Solutions</span></h3><p>Built staffing, billable and intraday reports in Excel and VBA, and monitored real-time performance for management.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <p class="eyebrow">Toolkit</p>
+      <h2>Skills</h2>
+      <div class="skills">
+        <div><h3>Reporting &amp; dashboards</h3><ul><li>Power BI (DAX, drill-through)</li><li>Excel: pivots, advanced charts, formulas</li><li>Tableau</li><li>Salesforce Analytics</li></ul></div>
+        <div><h3>Automation &amp; AI</h3><ul><li>VBA macros and UserForms</li><li>Power Query</li><li>n8n workflows</li><li>OpenAI API</li><li>Python scripting</li></ul></div>
+        <div><h3>Data &amp; databases</h3><ul><li>SQL</li><li>MS Access database design</li><li>PostgreSQL</li><li>ETL processes</li></ul></div>
+        <div><h3>Workforce management</h3><ul><li>Service level, ASA</li><li>Occupancy, shrinkage</li><li>AHT, real-time adherence</li></ul></div>
+        <div><h3>Apps</h3><ul><li>FlutterFlow</li><li>Firebase (Auth, Firestore)</li><li>Google Maps APIs</li><li>Claude Code</li></ul></div>
+        <div><h3>Design</h3><ul><li>Canva</li><li>SharePoint, Outlook</li></ul></div>
+      </div>
+      <div class="creds">
+        <div><p class="eyebrow">Certifications</p><p>Google Data Analytics · Microsoft Power BI &amp; SQL certificates · Lean Six Sigma Yellow Belt</p></div>
+        <div><p class="eyebrow">Education</p><p>BS Computer Engineering (undergraduate), Mapúa Institute of Technology</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <p class="big">Have a report that eats your week?</p>
+        <p class="intro" style="margin-top:14px;margin-bottom:0">I take part-time and project work in Excel automation, Power BI dashboards, databases and AI workflows. Based in Las Piñas, Philippines, and available weekday mornings Philippine time, which overlaps Australian business hours.</p>
+      </div>
+      <div class="card">
+        <div class="row"><span class="k">Email</span><span class="v"><span id="email">padilla_errol@yahoo.com</span><button class="copy" type="button" id="copyEmail">Copy</button></span></div>
+        <div class="row"><span class="k">LinkedIn</span><span class="v"><a href="https://www.linkedin.com/in/errol-padilla" target="_blank" rel="noopener">linkedin.com/in/errol-padilla</a></span></div>
+        <div class="row"><span class="k">Resume</span><span class="v">Available on request</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Errol Padilla. Screenshots use sample or anonymized data.</div></footer>
+
+<dialog id="viewer" aria-label="Enlarged screenshot">
+  <img id="viewerImg" alt="">
+  <button class="copy" type="button" id="closeViewer" style="background:var(--surface)">Close</button>
+</dialog>
+
+<script>
+(function(){
+  var dlg=document.getElementById('viewer'), big=document.getElementById('viewerImg');
+  document.querySelectorAll('.shot').forEach(function(b){
+    b.addEventListener('click',function(){
+      var img=b.querySelector('img'); big.src=img.src; big.alt=img.alt;
+      if(dlg.showModal){dlg.showModal();}
+    });
+  });
+  document.getElementById('closeViewer').addEventListener('click',function(){dlg.close();});
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+
+  var btn=document.getElementById('copyEmail'), em=document.getElementById('email');
+  btn.addEventListener('click',function(){
+    var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy';},1600);};
+    var fallback=function(){var r=document.createRange();r.selectNodeContents(em);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected';};
+    try{navigator.clipboard.writeText(em.textContent).then(done,fallback);}catch(e){fallback();}
+  });
+})();
+</script>
+</body>
+</html>
